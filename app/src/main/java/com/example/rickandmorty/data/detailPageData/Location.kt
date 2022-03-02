@@ -2,7 +2,7 @@ package com.example.rickandmorty.data.detailPageData
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
+import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Location(

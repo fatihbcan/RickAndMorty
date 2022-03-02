@@ -1,12 +1,11 @@
 package com.example.rickandmorty.view.characterListView
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.rickandmorty.R
@@ -31,8 +30,26 @@ class RickAndMortyCharactersListFragment : Fragment(R.layout.rick_and_morty_char
         val adapter = ItemListPagingAdapter(this)
 
 
+        binding.customSearchBar.setOnEditorActionListener { v, actionId, event ->
+            when(actionId){
+                EditorInfo.IME_ACTION_SEARCH -> {
+                    if(binding.customSearchBar.getSearchedText().length >= 2){
+                        viewModel.searchItems(binding.categories.position, binding.customSearchBar.getSearchedText())
+                    } else {
+                        viewModel.searchItems(binding.categories.position, "")
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
+
         binding.categories.setOnPositionChangedListener { position ->
-            viewModel.searchItems(position)
+            if(binding.customSearchBar.getSearchedText().length >= 2){
+                viewModel.searchItems(position, binding.customSearchBar.getSearchedText())
+            } else {
+                viewModel.searchItems(position, "")
+            }
             binding.recyclerView.scrollToPosition(0)
         }
 
