@@ -10,14 +10,20 @@ private const val STARTING_PAGE_INDEX = 1
 
 class DataPagingSourceByStatus(
     private val rickAndMortyApiService: RickAndMortyApiService,
-    private val category: String
+    private val category: String,
+    private val searchedString: String
 ) : PagingSource<Int, ItemListData>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ItemListData> {
         val position = params.key ?: STARTING_PAGE_INDEX // page position default 1
 
         return try {
-            val response = rickAndMortyApiService.getCharactersByStatus(position, category) // api call
+            val response = if(searchedString.length >= 2){
+                rickAndMortyApiService.getCharactersByStatusAndName(position, searchedString, category)
+            } else {
+                rickAndMortyApiService.getCharactersByStatus(position, category)
+                // api call
+            }
             val resultList = response.results // get api call results
 
             LoadResult.Page(

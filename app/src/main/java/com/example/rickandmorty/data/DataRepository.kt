@@ -14,24 +14,24 @@ import javax.inject.Singleton
 @Singleton
 class DataRepository  @Inject constructor(private val rickAndMortyApiService: RickAndMortyApiService) {
 
-    fun getSearchResults(category: String) =
+    fun getSearchResults(category: String, searchedString: String) =
         if(category == RickAndMortyApiSearchKeys.ALL){
             Pager(
                 config = PagingConfig(
-                    pageSize = 10,
-                    maxSize = 30,
+                    pageSize = 1,
+                    maxSize = 3,
                     enablePlaceholders = false
                 ),
-                pagingSourceFactory = { DataPagingSourceAll(rickAndMortyApiService) }
+                pagingSourceFactory = { DataPagingSourceAll(rickAndMortyApiService, searchedString) }
             ).liveData
         } else {
             Pager(
                 config = PagingConfig(
-                    pageSize = 10,
-                    maxSize = 30,
+                    pageSize = 1,
+                    maxSize = 3,
                     enablePlaceholders = false
                 ),
-                pagingSourceFactory = { DataPagingSourceByStatus(rickAndMortyApiService, category) }
+                pagingSourceFactory = { DataPagingSourceByStatus(rickAndMortyApiService, category, searchedString) }
             ).liveData
         }
 

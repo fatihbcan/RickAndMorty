@@ -9,14 +9,20 @@ import java.io.IOException
 private const val STARTING_PAGE_INDEX = 1
 
 class DataPagingSourceAll(
-    private val rickAndMortyApiService: RickAndMortyApiService
+    private val rickAndMortyApiService: RickAndMortyApiService,
+    private val searchedString: String
 ) : PagingSource<Int, ItemListData>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ItemListData> {
         val position = params.key ?: STARTING_PAGE_INDEX // page position default 1
 
         return try {
-            val response = rickAndMortyApiService.getAllCharacters(position) // api call
+            val response = if(searchedString.length >= 2){
+                rickAndMortyApiService.getAllCharactersByName(position,searchedString)
+            } else {
+                rickAndMortyApiService.getAllCharacters(position)
+                // api call
+            }
             val resultList = response.results // get api call results
 
             LoadResult.Page(

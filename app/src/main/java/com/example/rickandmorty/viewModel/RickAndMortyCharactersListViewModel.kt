@@ -18,12 +18,12 @@ class RickAndMortyCharactersListViewModel  @Inject constructor(private val repos
 
     // switchMap used to listen live data query and on every change of it, it will perform new api call
     val listItems = currentQuery.switchMap { query ->
-        repository.getSearchResults(query).cachedIn(viewModelScope)
+        repository.getSearchResults(query.first, query.second).cachedIn(viewModelScope)
     }
 
     // changes query instead of creating data class, pair used to pass search key and category
-    fun searchItems(categoryIndex : Int) {
-        currentQuery.value = getCategoryName(categoryIndex)
+    fun searchItems(categoryIndex : Int, searchedString: String) {
+        currentQuery.value = Pair(getCategoryName(categoryIndex), searchedString)
     }
 
     private fun getCategoryName(value : Int) : String {
@@ -37,6 +37,6 @@ class RickAndMortyCharactersListViewModel  @Inject constructor(private val repos
     }
 
     companion object {
-        private val DEFAULT_QUERY = RickAndMortyApiSearchKeys.ALL
+        private val DEFAULT_QUERY = Pair(RickAndMortyApiSearchKeys.ALL, "")
     }
 }
