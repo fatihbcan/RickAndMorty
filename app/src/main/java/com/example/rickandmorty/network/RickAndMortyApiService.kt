@@ -1,7 +1,7 @@
 package com.example.rickandmorty.network
 
-import retrofit2.http.GET
-import retrofit2.http.Query
+import com.example.rickandmorty.data.detailPageData.Episode
+import retrofit2.http.*
 
 interface RickAndMortyApiService {
 
@@ -12,11 +12,16 @@ interface RickAndMortyApiService {
     @GET("character")
     suspend fun getAllCharacters(
         @Query("page") page: Int
-    ): RickAndMortyApiResponse
+    ): RickAndMortyApiListItemsResponse
 
     @GET("character")
     suspend fun getCharactersByStatus(
         @Query("page") page: Int,
         @Query("status") status: String
-    ): RickAndMortyApiResponse
+    ): RickAndMortyApiListItemsResponse
+
+    @GET("episode/{episodeList}")
+    suspend fun getIncludedEpisodesOfCharacter(
+        @Path("episodeList") epsiodeList: String
+    ): List<Episode>
 }

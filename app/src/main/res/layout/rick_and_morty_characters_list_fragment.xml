@@ -6,7 +6,7 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="@drawable/amber200_to_orange400_gradient"
 android:orientation="vertical"
-tools:context=".view.RickAndMortyCharactersListFragment">
+tools:context=".view.characterListView.RickAndMortyCharactersListFragment">
 
 <TextView
     android:id="@+id/title"
@@ -83,6 +83,7 @@ tools:context=".view.RickAndMortyCharactersListFragment">
     android:layout_marginBottom="20dp"
     android:layout_below="@id/categories"
     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
     tools:listitem="@layout/recycler_view_item" />
 
 

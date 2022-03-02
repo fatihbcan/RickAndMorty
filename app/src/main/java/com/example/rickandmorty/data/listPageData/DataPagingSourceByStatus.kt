@@ -1,4 +1,4 @@
-package com.example.rickandmorty.data
+package com.example.rickandmorty.data.listPageData
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -8,15 +8,16 @@ import java.io.IOException
 
 private const val STARTING_PAGE_INDEX = 1
 
-class DataPagingSourceAll(
-    private val rickAndMortyApiService: RickAndMortyApiService
+class DataPagingSourceByStatus(
+    private val rickAndMortyApiService: RickAndMortyApiService,
+    private val category: String
 ) : PagingSource<Int, ItemListData>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ItemListData> {
         val position = params.key ?: STARTING_PAGE_INDEX // page position default 1
 
         return try {
-            val response = rickAndMortyApiService.getAllCharacters(position) // api call
+            val response = rickAndMortyApiService.getCharactersByStatus(position, category) // api call
             val resultList = response.results // get api call results
 
             LoadResult.Page(

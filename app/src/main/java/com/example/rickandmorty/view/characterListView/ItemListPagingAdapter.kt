@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rickandmorty.data.ItemListData
+import com.example.rickandmorty.data.listPageData.ItemListData
 import com.example.rickandmorty.databinding.RecyclerViewItemBinding
 
 class ItemListPagingAdapter (private val listener: OnItemClickListener) :

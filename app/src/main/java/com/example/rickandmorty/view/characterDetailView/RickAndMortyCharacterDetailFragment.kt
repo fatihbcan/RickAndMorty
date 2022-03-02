@@ -1,29 +1,46 @@
-package com.example.rickandmorty.view
+package com.example.rickandmorty.view.characterDetailView
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmorty.R
-import com.example.rickandmorty.data.ItemListData
+import com.example.rickandmorty.databinding.RickAndMortyCharacterDetailFragmentBinding
 import com.example.rickandmorty.databinding.RickAndMortyCharactersListFragmentBinding
-import com.example.rickandmorty.view.characterListView.ItemListPagingAdapter
 import com.example.rickandmorty.viewModel.RickAndMortyCharacterDetailViewModel
+import com.example.rickandmorty.viewModel.RickAndMortyCharactersListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RickAndMortyCharacterDetailFragment: Fragment(R.layout.rick_and_morty_character_detail_fragment){
 
+    private var _binding : RickAndMortyCharacterDetailFragmentBinding? = null
+    private val binding get() = _binding!!
+
+    private val args: RickAndMortyCharacterDetailFragmentArgs by navArgs()
+    private val viewModel by viewModels<RickAndMortyCharacterDetailViewModel>()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = RickAndMortyCharacterDetailFragmentBinding.bind(view)
+
         backGroundColor()
+
+        viewModel.loadEpisodes(args.character)
+
+        binding.item = args.character
+
+        viewModel.episodes.observe(viewLifecycleOwner, {
+            episodeList ->
+            binding.episodeList.also {
+                it.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL ,false)
+                it.adapter = CharacterEpisodesAdapter(episodeList)
+            }
+        })
     }
 
     //handles all fragment color including status bar and navigation bar
