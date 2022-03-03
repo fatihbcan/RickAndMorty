@@ -7,8 +7,10 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.databinding.LoadStateFooterBinding
+import retrofit2.HttpException
 
-class ItemListLoadStateAdapter(private val retry: () -> Unit) : LoadStateAdapter<ItemListLoadStateAdapter.LoadStateViewHolder>() {
+class ItemListLoadStateAdapter(private val retry: () -> Unit) :
+    LoadStateAdapter<ItemListLoadStateAdapter.LoadStateViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): LoadStateViewHolder {
         val binding = LoadStateFooterBinding.inflate(
@@ -17,7 +19,8 @@ class ItemListLoadStateAdapter(private val retry: () -> Unit) : LoadStateAdapter
             false
         )
 
-        return LoadStateViewHolder(binding)    }
+        return LoadStateViewHolder(binding)
+    }
 
 
     override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) {
@@ -26,7 +29,7 @@ class ItemListLoadStateAdapter(private val retry: () -> Unit) : LoadStateAdapter
 
 
     inner class LoadStateViewHolder(private val binding: LoadStateFooterBinding) :
-        RecyclerView.ViewHolder(binding.root){
+        RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.buttonRetry.setOnClickListener {
@@ -36,10 +39,20 @@ class ItemListLoadStateAdapter(private val retry: () -> Unit) : LoadStateAdapter
 
         // according to loading state shows spinner or button with text
         fun bind(loadState: LoadState) {
-            binding.apply {
-                loadingSpinner.isVisible = loadState is LoadState.Loading
-                buttonRetry.isVisible = loadState !is LoadState.Loading
-                textViewError.isVisible = loadState !is LoadState.Loading
+            if (loadState is LoadState.Error) {
+                if (loadState.error is HttpException) {
+                    binding.apply {
+                        loadingSpinner.isVisible = false
+                        buttonRetry.isVisible = false
+                        textViewError.isVisible = false
+                    }
+                }
+            } else {
+                binding.apply {
+                    loadingSpinner.isVisible = loadState is LoadState.Loading
+                    buttonRetry.isVisible = loadState !is LoadState.Loading
+                    textViewError.isVisible = loadState !is LoadState.Loading
+                }
             }
         }
     }

@@ -20,4 +20,7 @@
     <color name="cardEnd">@color/orange_400</color>
     <color name="detailsFragmentBg">@color/amber_200</color>
 
+    <color name="alive_color">#46A955</color>
+    <color name="dead_color">#C2231B</color>
+    <color name="unknown_color">#C4AC10</color>
 </resources>

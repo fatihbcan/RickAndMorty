@@ -1,7 +1,12 @@
 package com.example.rickandmorty.di
 
+import com.example.rickandmorty.data.detailPageData.Episode
+import com.example.rickandmorty.data.detailPageData.EpisodeList
 import com.example.rickandmorty.network.RickAndMortyApiService
+import com.example.rickandmorty.widget.EpisodeListDeserializer
+import com.example.rickandmorty.widget.EpisodesDeserializer
 import com.facebook.stetho.okhttp3.StethoInterceptor
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,6 +30,11 @@ object AppModule {
 
         val stethoInterceptor = StethoInterceptor()
 
+        val gson = GsonBuilder()
+            .registerTypeAdapter(Episode::class.java, EpisodesDeserializer())
+            .registerTypeAdapter(EpisodeList::class.java, EpisodeListDeserializer())
+            .create()
+
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
             .addInterceptor(stethoInterceptor)
@@ -35,7 +45,7 @@ object AppModule {
         return Retrofit.Builder()
             .baseUrl(RickAndMortyApiService.BASE_URL)
             .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
 

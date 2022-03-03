@@ -11,7 +11,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class RickAndMortyCharactersListViewModel  @Inject constructor(private val repository: DataRepository): ViewModel() {
+class RickAndMortyCharactersListViewModel @Inject constructor(private val repository: DataRepository) :
+    ViewModel() {
 
     // query is a live data
     private val currentQuery = MutableLiveData(DEFAULT_QUERY)
@@ -22,12 +23,12 @@ class RickAndMortyCharactersListViewModel  @Inject constructor(private val repos
     }
 
     // changes query instead of creating data class, pair used to pass search key and category
-    fun searchItems(categoryIndex : Int, searchedString: String) {
+    fun searchItems(categoryIndex: Int, searchedString: String) {
         currentQuery.value = Pair(getCategoryName(categoryIndex), searchedString)
     }
 
-    private fun getCategoryName(value : Int) : String {
-        return when(value){
+    private fun getCategoryName(value: Int): String {
+        return when (value) {
             0 -> RickAndMortyApiSearchKeys.ALL
             1 -> RickAndMortyApiSearchKeys.ALIVE
             2 -> RickAndMortyApiSearchKeys.DEAD

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,101 +9,145 @@
     tools:context=".view.characterListView.RickAndMortyCharactersListFragment">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/error_text"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/muli_bold"
-        android:gravity="center"
-        android:text="Rick And Morty"
+        android:text="@string/couldn_t_find_any_match_n_please_try_again_with_different_text"
         android:textAlignment="center"
-        android:textSize="30sp" />
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.rickandmorty.widget.CustomSearchBar
-        android:id="@+id/customSearchBar"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/progress_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:layout_marginTop="8dp"
-        app:header_image="@drawable/search_icon"
-        app:hint="Search" />
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <com.addisonelliott.segmentedbutton.SegmentedButtonGroup
-        android:id="@+id/categories"
+        <ProgressBar
+            android:id="@+id/loading_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/orange_900"
+            android:indeterminateTintMode="src_atop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/muli_bold"
+            android:text="@string/loading"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loading_spinner" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@+id/customSearchBar"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="10dp"
-        android:background="@color/white"
-        app:borderColor="@color/black"
-        app:borderWidth="1dp"
-        app:divider="@color/gray"
-        app:dividerPadding="10dp"
-        app:dividerWidth="1dp"
-        app:position="0"
-        app:radius="30dp">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.addisonelliott.segmentedbutton.SegmentedButton
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="10dp"
-            app:selectedBackground="@color/gray"
-            app:text="All"
-            app:textColor="@color/black" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/muli_bold"
+            android:gravity="center"
+            android:text="@string/rick_and_morty"
+            android:textAlignment="center"
+            android:textSize="30sp" />
 
-        <com.addisonelliott.segmentedbutton.SegmentedButton
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="10dp"
-            app:selectedBackground="@color/gray"
-            app:text="Alive"
-            app:textColor="@color/black" />
+        <com.example.rickandmorty.widget.CustomSearchBar
+            android:id="@+id/customSearchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="8dp"
+            app:header_image="@drawable/search_icon"
+            app:hint="Search" />
 
-        <com.addisonelliott.segmentedbutton.SegmentedButton
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="10dp"
-            app:selectedBackground="@color/gray"
-            app:text="Dead"
-            app:textColor="@color/black" />
+        <com.addisonelliott.segmentedbutton.SegmentedButtonGroup
+            android:id="@+id/categories"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/customSearchBar"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/white"
+            app:borderColor="@color/black"
+            app:borderWidth="1dp"
+            app:divider="@color/gray"
+            app:dividerPadding="10dp"
+            app:dividerWidth="1dp"
+            app:position="0"
+            app:radius="30dp">
 
-        <com.addisonelliott.segmentedbutton.SegmentedButton
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="10dp"
-            app:selectedBackground="@color/gray"
-            app:text="Unknown"
-            app:textColor="@color/black" />
-    </com.addisonelliott.segmentedbutton.SegmentedButtonGroup>
+            <com.addisonelliott.segmentedbutton.SegmentedButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="10dp"
+                app:selectedBackground="@color/gray"
+                app:text="All"
+                app:textColor="@color/black" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/categories"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="20dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            <com.addisonelliott.segmentedbutton.SegmentedButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="10dp"
+                app:selectedBackground="@color/gray"
+                app:text="Alive"
+                app:textColor="@color/black" />
 
-        tools:listitem="@layout/recycler_view_item" />
+            <com.addisonelliott.segmentedbutton.SegmentedButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="10dp"
+                app:selectedBackground="@color/gray"
+                app:text="Dead"
+                app:textColor="@color/black" />
 
+            <com.addisonelliott.segmentedbutton.SegmentedButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="10dp"
+                app:selectedBackground="@color/gray"
+                app:text="Unknown"
+                app:textColor="@color/black" />
+        </com.addisonelliott.segmentedbutton.SegmentedButtonGroup>
 
-    <ProgressBar
-        android:id="@+id/loading_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:indeterminateTint="@color/orange_900"
-        android:indeterminateTintMode="src_atop"
-        android:visibility="gone" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/categories"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/recycler_view_item" />
+    </RelativeLayout>
 
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

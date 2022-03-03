@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">RickAndMorty</string>
     <string name="episodes">Episodes</string>
+    <string name="rick_and_morty">Rick And Morty</string>
+    <string name="couldn_t_find_any_match_n_please_try_again_with_different_text">Couldn\'t find any match.. \n Please try again with different text</string>
+    <string name="loading">Loading..</string>
 </resources>

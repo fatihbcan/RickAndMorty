@@ -27,6 +27,17 @@ fun setLocation(view: TextView, location: String) {
 
 @SuppressLint("SetTextI18n")
 @BindingAdapter("setStatus")
-fun setStatus(view: TextView, location: String) {
-    view.text = "Status : $location"
+fun setStatus(view: TextView, status: String) {
+    view.text = "Status : $status"
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("setStatusWithColor")
+fun setStatusWithColor(view: TextView, status: String) {
+    view.text = status
+    when(status){
+        "Alive" -> view.setTextColor(view.context.getColor(R.color.alive_color))
+        "Dead" -> view.setTextColor(view.context.getColor(R.color.dead_color))
+        else -> view.setTextColor(view.context.getColor(R.color.unknown_color))
+    }
 }

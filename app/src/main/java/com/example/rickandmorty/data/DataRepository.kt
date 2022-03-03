@@ -3,7 +3,7 @@ package com.example.rickandmorty.data
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.liveData
-import com.example.rickandmorty.data.detailPageData.Episode
+import com.example.rickandmorty.data.detailPageData.EpisodeList
 import com.example.rickandmorty.data.listPageData.DataPagingSourceAll
 import com.example.rickandmorty.data.listPageData.DataPagingSourceByStatus
 import com.example.rickandmorty.network.RickAndMortyApiSearchKeys
@@ -35,7 +35,7 @@ class DataRepository  @Inject constructor(private val rickAndMortyApiService: Ri
             ).liveData
         }
 
-    suspend fun getCharacterIncludedEpisodeDetails(episodeList : String) : List<Episode> {
+    suspend fun getCharacterIncludedEpisodeDetails(episodeList : String) : EpisodeList {
         return rickAndMortyApiService.getIncludedEpisodesOfCharacter(episodeList)
     }
 }

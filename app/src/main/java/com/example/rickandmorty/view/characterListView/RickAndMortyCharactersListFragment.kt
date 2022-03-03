@@ -7,12 +7,16 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import com.example.rickandmorty.R
 import com.example.rickandmorty.data.listPageData.ItemListData
 import com.example.rickandmorty.databinding.RickAndMortyCharactersListFragmentBinding
 import com.example.rickandmorty.viewModel.RickAndMortyCharactersListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RickAndMortyCharactersListFragment : Fragment(R.layout.rick_and_morty_characters_list_fragment) , ItemListPagingAdapter.OnItemClickListener{
@@ -28,7 +32,6 @@ class RickAndMortyCharactersListFragment : Fragment(R.layout.rick_and_morty_char
         _binding = RickAndMortyCharactersListFragmentBinding.bind(view)
 
         val adapter = ItemListPagingAdapter(this)
-
 
         binding.customSearchBar.setOnEditorActionListener { v, actionId, event ->
             when(actionId){
@@ -53,6 +56,8 @@ class RickAndMortyCharactersListFragment : Fragment(R.layout.rick_and_morty_char
             binding.recyclerView.scrollToPosition(0)
         }
 
+
+
         //sets recycleView
         binding.apply {
             recyclerView.setHasFixedSize(true)
@@ -60,6 +65,28 @@ class RickAndMortyCharactersListFragment : Fragment(R.layout.rick_and_morty_char
                 header = ItemListLoadStateAdapter { adapter.retry() },
                 footer = ItemListLoadStateAdapter { adapter.retry() }
             )
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            adapter.loadStateFlow.collectLatest { loadStates ->
+                if(loadStates.refresh is LoadState.Error){
+                    binding.errorText.visibility = View.VISIBLE
+                    binding.recyclerView.visibility = View.GONE
+                    binding.progressBarLayout.visibility = View.GONE
+                } else {
+                    if(loadStates.refresh is LoadState.Loading){
+                        binding.progressBarLayout.visibility = View.VISIBLE
+                        binding.errorText.visibility = View.GONE
+                        binding.recyclerView.visibility = View.GONE
+                    } else {
+                        binding.progressBarLayout.visibility = View.GONE
+                        binding.errorText.visibility = View.GONE
+                        binding.recyclerView.visibility = View.VISIBLE
+                    }
+
+                }
+            }
+
         }
 
         //observes paging data and submit it to paging adapter

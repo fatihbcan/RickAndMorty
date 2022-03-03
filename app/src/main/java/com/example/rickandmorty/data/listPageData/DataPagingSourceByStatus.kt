@@ -2,8 +2,8 @@ package com.example.rickandmorty.data.listPageData
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.bumptech.glide.load.HttpException
 import com.example.rickandmorty.network.RickAndMortyApiService
+import retrofit2.HttpException
 import java.io.IOException
 
 private const val STARTING_PAGE_INDEX = 1
@@ -34,6 +34,8 @@ class DataPagingSourceByStatus(
         } catch (exception: IOException) {
             LoadResult.Error(exception)
         } catch (exception: HttpException) {
+            LoadResult.Error(exception)
+        } catch (exception: Exception){
             LoadResult.Error(exception)
         }
     }
